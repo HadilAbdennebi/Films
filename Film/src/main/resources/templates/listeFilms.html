@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorator="template">
+<link rel="stylesheet" type="text/css" href="webjars/bootstrap/4.3.1/css/bootstrap.min.css" />
+
+<head>
+	<meta charset="utf-8">
+	<title>Liste des Produits</title>
+</head>
+
+<body>
+<div layout:fragment="Mycontent">
+	<div class="container mt-5">
+		<div class="card">
+		
+			<div class="card-header">
+				Liste des Films
+			</div>
+			
+			<div class="card-body">
+			<div class="form-group">
+			<form th:action="@{/cherecher}">
+			   <i>Recherche :</i>
+			   <input type="text" name="keyword" class="form-control"/>
+			   <br>
+			   <button type="submit" value="search" class="btn btn-primary">Chercher</button>
+			<br>
+			</form>
+		</div>
+			
+				<table class="table table-striped">
+					<tr>
+						<th>ID</th>
+						<th>Nom Film</th>
+						<th>Prix Ticket</th>
+						<th>Date Sortie de film</th>
+
+					</tr>
+					<tr th:each="p:${films.content}">
+						<td th:text="${p.idFilm}"></td>
+						<td th:text="${p.nomFilm}"></td>
+						<td th:text="${p.prixTicket}"></td>
+						<td th:text="${p.dateSortie}"></td>
+						
+						<td><a class="btn btn-success"th:href="@{modifierFilm(id=${p.idFilm})}">Editer</a></td>
+						<td><a class="btn btn-danger" onclick="return confirm('Etes-vous sûr ?')"
+				       th:href="@{supprimerFilm(id=${p.idFilm},
+				       page=${currentPage},size=${size})}">Supprimer</a></td>
+					</tr>
+				</table>
+				<ul class="nav nav-pills">
+					<li th:each="page,status:${pages}">
+						<a th:class="${status.index==currentPage?'btn btn-primary':'btn' }"
+							th:href="@{ ListeFilms(page=${status.index}, size=${size} ) }"
+							th:text="${status.index }"></a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+		</div>
+
+</body>
+
+</html>
